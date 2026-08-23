@@ -49,6 +49,31 @@ void timer_stop(timer_t *timer) {
 	__set_PRIMASK(primask);
 }
 
+bool timer_is_active(const timer_t *timer) {
+	if (timer == NULL)
+		return false;
+
+	return timer->active;
+}
+
+bool timer_is_any_active(void) {
+	uint32_t primask = __get_PRIMASK();
+	__disable_irq();
+
+	timer_t *curr = timer_head;
+	bool active = false;
+	while (curr != NULL) {
+		if (curr->active) {
+			active = true;
+			break;
+		}
+		curr = curr->next;
+	}
+
+	__set_PRIMASK(primask);
+	return active;
+}
+
 void timer_process(void) {
 	uint32_t now = brd_get_tick();
 	timer_t *curr = timer_head;

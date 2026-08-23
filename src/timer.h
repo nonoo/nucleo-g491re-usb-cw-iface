@@ -15,6 +15,8 @@ typedef struct timer {
 
 void timer_start(timer_t *timer, uint32_t delay_ms, bool periodic, timer_cb_t cb, void *arg);
 void timer_stop(timer_t *timer);
+bool timer_is_active(const timer_t *timer);
+bool timer_is_any_active(void);
 
 void timer_process(void);
 

@@ -10,13 +10,6 @@
 
 static __unused const char *TAG = "main";
 
-static timer_t sleep_timer;
-static bool is_sleeping = false;
-
-static void sleep_timer_cb(void *arg) {
-	is_sleeping = true;
-}
-
 int main(void) {
 	HAL_Init();
 	brd_clk_init();
@@ -24,10 +17,11 @@ int main(void) {
 #if UART_CONSOLE_ENABLED
 	uart_console_init();
 #endif
-
 	usb_init();
 
 	LOG(TAG, "init done\r\n");
+
+	uint32_t last_activity_tick = brd_get_tick();
 
 	while (1) {
 		timer_process();
@@ -35,8 +29,7 @@ int main(void) {
 
 		event_t evt;
 		if (event_pop(&evt)) {
-			timer_stop(&sleep_timer);
-			is_sleeping = false;
+			last_activity_tick = brd_get_tick();
 
 			switch (evt) {
 				case EVENT_BTN:
@@ -108,12 +101,16 @@ int main(void) {
 #endif
 					break;
 			}
-		} else {
-			if (!sleep_timer.active && !is_sleeping)
-				timer_start(&sleep_timer, SLEEP_TIMEOUT_MS, false, sleep_timer_cb, NULL);
 
-			if (is_sleeping)
-				brd_enter_sleep();
+			continue;
 		}
+
+		if (timer_is_any_active()) {
+			last_activity_tick = brd_get_tick();
+			continue;
+		}
+
+		if (brd_tick_diff(last_activity_tick, brd_get_tick()) >= SLEEP_TIMEOUT_MS)
+			brd_enter_sleep();
 	}
 }
