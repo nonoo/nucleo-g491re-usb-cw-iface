@@ -35,10 +35,12 @@
 #define STRAIGHT_KEY_GPIO_ENABLE()		__HAL_RCC_GPIOA_CLK_ENABLE()
 #define STRAIGHT_KEY_IRQn				EXTI4_IRQn
 
-#define BTN_DEBOUNCE_MS					50
+#define BTN_DEBOUNCE_MS					100
+
+#define SLEEP_TIMEOUT_MS				5000
 
 #define USB_KEYBOARD_ENABLED			1
 #define USB_MIDI_ENABLED				1
 
 #define DEBUG							1
-#define LOGGING_ENABLED					1
+#define LOGGING_ENABLED					0

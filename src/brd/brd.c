@@ -27,3 +27,9 @@ uint32_t brd_tick_diff(uint32_t start, uint32_t end) {
 uint32_t brd_get_tick(void) {
 	return HAL_GetTick();
 }
+
+void brd_enter_sleep(void) {
+	HAL_SuspendTick();
+	HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+	HAL_ResumeTick();
+}

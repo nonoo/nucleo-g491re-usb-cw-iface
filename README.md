@@ -3,7 +3,7 @@ USB CW interface for Nucleo G491RE devboard
 
 Lets you connect a CW keyer to your computer via USB.
 
-The devboard will show up as a USB keyboard and MIDI interface and it is compatible with [Vail Adapter](https://github.com/Vail-CW/vail-adapter/).
+The devboard will show up as a USB keyboard and MIDI interface and it is compatible with the [Vail Adapter](https://github.com/Vail-CW/vail-adapter/).
 
 # Building
 

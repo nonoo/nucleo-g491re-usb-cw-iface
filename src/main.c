@@ -3,11 +3,19 @@
 #include "btn.h"
 #include "led.h"
 
+#include "brd/brd.h"
 #include "brd/gpio.h"
 #include "uart/uart-console.h"
 #include "usb/usb.h"
 
 static __unused const char *TAG = "main";
+
+static timer_t sleep_timer;
+static bool is_sleeping = false;
+
+static void sleep_timer_cb(void *arg) {
+	is_sleeping = true;
+}
 
 int main(void) {
 	HAL_Init();
@@ -24,9 +32,11 @@ int main(void) {
 		timer_process();
 		usb_process();
 
-		// TODO: go to sleep if no events are pending, wake up on interrupts.
 		event_t evt;
 		if (event_pop(&evt)) {
+			timer_stop(&sleep_timer);
+			is_sleeping = false;
+
 			switch (evt) {
 				case EVENT_BTN:
 					btn_update();
@@ -97,6 +107,12 @@ int main(void) {
 #endif
 					break;
 			}
+		} else {
+			if (!sleep_timer.active && !is_sleeping)
+				timer_start(&sleep_timer, SLEEP_TIMEOUT_MS, false, sleep_timer_cb, NULL);
+
+			if (is_sleeping)
+				brd_enter_sleep();
 		}
 	}
 }
