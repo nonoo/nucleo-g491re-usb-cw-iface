@@ -34,6 +34,8 @@ Configuration (ex. used pins) can be changed in `src/config.h`
 
 # Pinouts
 
+![Devboard image](board.svg)
+
 Connect your CW keyer to the following pins on the Nucleo G491RE devboard:
 
 | Name | ST morpho connector / pin number | Function     |
