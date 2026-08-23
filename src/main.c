@@ -19,6 +19,7 @@ static void sleep_timer_cb(void *arg) {
 
 int main(void) {
 	HAL_Init();
+	brd_clk_init();
 	gpio_init();
 #if LOGGING_ENABLED
 	uart_console_init();
