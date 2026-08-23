@@ -5,6 +5,22 @@ Lets you connect a CW keyer to your computer via USB.
 
 The devboard will show up as a USB keyboard and MIDI interface and it is compatible with the [Vail Adapter](https://github.com/Vail-CW/vail-adapter/).
 
+If `USB_KEYBOARD_ENABLED` is set to 1 in `src/config.h`, the devboard will send the keyer input as keyboard events:
+
+| Key          | Keyboard event |
+|--------------|----------------|
+| Straight key | Space          |
+| Dit          | Left CTRL      |
+| Dah          | Right CTRL     |
+
+If `USB_MIDI_ENABLED` is set to 1, it will send the keyer input as MIDI events:
+
+| Key          | MIDI note |
+|--------------|-----------|
+| Straight key | Note C    |
+| Dit          | Note C#   |
+| Dah          | Note D    |
+
 # Building
 
 Built and tested on Linux.
