@@ -1,0 +1,44 @@
+// Defines needed by the HAL library.
+#define USE_NUCLEO_64					1
+#define STM32G491xx						1
+
+#define UART_CONSOLE_UART				LPUART1
+#define UART_CONSOLE_BAUDRATE			115200
+#define UART_CONSOLE_CLK_ENABLE()		__HAL_RCC_LPUART1_CLK_ENABLE()
+#define UART_CONSOLE_TX_GPIO_ENABLE()	__HAL_RCC_GPIOA_CLK_ENABLE()
+#define UART_CONSOLE_TX_PIN				GPIO_PIN_2
+#define UART_CONSOLE_TX_GPIO_PORT		GPIOA
+#define UART_CONSOLE_TX_AF				GPIO_AF12_LPUART1
+#define UART_CONSOLE_RX_GPIO_ENABLE()	__HAL_RCC_GPIOA_CLK_ENABLE()
+#define UART_CONSOLE_RX_PIN				GPIO_PIN_3
+#define UART_CONSOLE_RX_GPIO_PORT		GPIOA
+#define UART_CONSOLE_RX_AF				GPIO_AF12_LPUART1
+
+// Arduino CN8 - pin A0
+// ST morpho CN7 - pin 28
+#define DIT_PIN							GPIO_PIN_0
+#define DIT_GPIO_PORT					GPIOA
+#define DIT_GPIO_ENABLE()				__HAL_RCC_GPIOA_CLK_ENABLE()
+#define DIT_IRQn						EXTI0_IRQn
+
+// Arduino CN8 - pin A1
+// ST morpho CN7 - pin 30
+#define DAH_PIN							GPIO_PIN_1
+#define DAH_GPIO_PORT					GPIOA
+#define DAH_GPIO_ENABLE()				__HAL_RCC_GPIOA_CLK_ENABLE()
+#define DAH_IRQn						EXTI1_IRQn
+
+// Arduino CN8 - pin A2
+// ST morpho CN7 - pin 32
+#define STRAIGHT_KEY_PIN				GPIO_PIN_4
+#define STRAIGHT_KEY_GPIO_PORT			GPIOA
+#define STRAIGHT_KEY_GPIO_ENABLE()		__HAL_RCC_GPIOA_CLK_ENABLE()
+#define STRAIGHT_KEY_IRQn				EXTI4_IRQn
+
+#define BTN_DEBOUNCE_MS					50
+
+#define USB_KEYBOARD_ENABLED			1
+#define USB_MIDI_ENABLED				1
+
+#define DEBUG							1
+#define LOGGING_ENABLED					1

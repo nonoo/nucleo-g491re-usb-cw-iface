@@ -1,0 +1,102 @@
+#include "timer.h"
+#include "event.h"
+#include "btn.h"
+#include "led.h"
+
+#include "brd/gpio.h"
+#include "uart/uart-console.h"
+#include "usb/usb.h"
+
+static __unused const char *TAG = "main";
+
+int main(void) {
+	HAL_Init();
+	gpio_init();
+#if LOGGING_ENABLED
+	uart_console_init();
+#endif
+
+	usb_init();
+
+	LOG(TAG, "init done\r\n");
+
+	while (1) {
+		timer_process();
+		usb_process();
+
+		// TODO: go to sleep if no events are pending, wake up on interrupts.
+		event_t evt;
+		if (event_pop(&evt)) {
+			switch (evt) {
+				case EVENT_BTN:
+					btn_update();
+					break;
+				case EVENT_LED_ON:
+				case EVENT_LED_ON_BLINK:
+				case EVENT_LED_OFF:
+					led_process_event(evt);
+					break;
+				case EVENT_DIT_PRESS:
+					led_on(false);
+#if USB_KEYBOARD_ENABLED
+					usb_keyboard_set_modifier(USB_KEYBOARD_MODIFIER_LEFTCTRL, true);
+#endif
+#if USB_MIDI_ENABLED
+					usb_midi_send_note_on(1, 0x7F);
+#endif
+					LOG(TAG, "dit on\r\n");
+					break;
+				case EVENT_DIT_RELEASE:
+					led_off();
+					LOG(TAG, "dit off\r\n");
+#if USB_KEYBOARD_ENABLED
+					usb_keyboard_set_modifier(USB_KEYBOARD_MODIFIER_LEFTCTRL, false);
+#endif
+#if USB_MIDI_ENABLED
+					usb_midi_send_note_off(1);
+#endif
+					break;
+				case EVENT_DAH_PRESS:
+					led_on(true);
+					LOG(TAG, "dah on\r\n");
+#if USB_KEYBOARD_ENABLED
+					usb_keyboard_set_modifier(USB_KEYBOARD_MODIFIER_RIGHTCTRL, true);
+#endif
+#if USB_MIDI_ENABLED
+					usb_midi_send_note_on(2, 0x7F);
+#endif
+					break;
+				case EVENT_DAH_RELEASE:
+					led_off();
+					LOG(TAG, "dah off\r\n");
+#if USB_KEYBOARD_ENABLED
+					usb_keyboard_set_modifier(USB_KEYBOARD_MODIFIER_RIGHTCTRL, false);
+#endif
+#if USB_MIDI_ENABLED
+					usb_midi_send_note_off(2);
+#endif
+					break;
+				case EVENT_STRAIGHT_KEY_PRESS:
+					led_on(false);
+					LOG(TAG, "straight key on\r\n");
+#if USB_KEYBOARD_ENABLED
+					usb_keyboard_set_key(USB_KEY_SPACE, true);
+#endif
+#if USB_MIDI_ENABLED
+					usb_midi_send_note_on(0, 0x7F);
+#endif
+					break;
+				case EVENT_STRAIGHT_KEY_RELEASE:
+					led_off();
+					LOG(TAG, "straight key off\r\n");
+#if USB_KEYBOARD_ENABLED
+					usb_keyboard_set_key(USB_KEY_SPACE, false);
+#endif
+#if USB_MIDI_ENABLED
+					usb_midi_send_note_off(0);
+#endif
+					break;
+			}
+		}
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"configurations": [
+		{
+			"name": "ESP-IDF",
+			"cStandard": "c11",
+			"cppStandard": "c++17",
+			"includePath": [
+				"${workspaceFolder}/**",
+			],
+			"compileCommands": "${workspaceFolder}/build/compile_commands.json",
+			"forcedInclude": [
+				"${workspaceFolder}/config.h",
+				"${workspaceFolder}/src/main.h",
+				"${workspaceFolder}/src/com/log.h"
+			]
+		}
+	],
+	"version": 4
+}
