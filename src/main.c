@@ -21,7 +21,7 @@ int main(void) {
 	HAL_Init();
 	brd_clk_init();
 	gpio_init();
-#if LOGGING_ENABLED
+#if UART_CONSOLE_ENABLED
 	uart_console_init();
 #endif
 

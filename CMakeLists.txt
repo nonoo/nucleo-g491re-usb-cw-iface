@@ -43,7 +43,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -include src/main.h")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -include src/uart/log.h")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DCFG_TUSB_MCU=OPT_MCU_STM32G4")
 
-set(CMAKE_C_FLAGS_DEBUG "-Og -g")
+set(CMAKE_C_FLAGS_DEBUG "-Og -g -DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-Os -flto")
 
 set(CMAKE_ASM_FLAGS "-Wall")

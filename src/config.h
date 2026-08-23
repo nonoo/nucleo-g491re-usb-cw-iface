@@ -2,6 +2,7 @@
 #define USE_NUCLEO_64					1
 #define STM32G491xx						1
 
+#define UART_CONSOLE_ENABLED			0
 #define UART_CONSOLE_UART				LPUART1
 #define UART_CONSOLE_BAUDRATE			115200
 #define UART_CONSOLE_CLK_ENABLE()		__HAL_RCC_LPUART1_CLK_ENABLE()
@@ -41,6 +42,3 @@
 
 #define USB_KEYBOARD_ENABLED			1
 #define USB_MIDI_ENABLED				1
-
-#define DEBUG							1
-#define LOGGING_ENABLED					0

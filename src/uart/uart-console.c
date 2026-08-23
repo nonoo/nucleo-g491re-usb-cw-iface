@@ -1,7 +1,7 @@
 #include "uart-console.h"
 #include "brd/brd.h"
 
-#if LOGGING_ENABLED
+#if UART_CONSOLE_ENABLED
 
 UART_HandleTypeDef uart_console_handletypedef = {
 	.Instance = UART_CONSOLE_UART,

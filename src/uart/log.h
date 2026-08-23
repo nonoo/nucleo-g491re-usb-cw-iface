@@ -3,7 +3,7 @@
 
 #include "uart-console.h"
 
-#if LOGGING_ENABLED
+#if UART_CONSOLE_ENABLED
 #define LOG(TAG, format, ...) uart_console_log(TAG, format, ##__VA_ARGS__)
 #define LOGC(format, ...) uart_console_log(NULL, format, ##__VA_ARGS__)
 #define DBG(TAG, format, ...) uart_console_log(TAG, format, ##__VA_ARGS__)
