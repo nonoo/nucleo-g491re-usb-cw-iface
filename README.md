@@ -54,3 +54,6 @@ Connect a USB cable to the following pins:
 | GND   | CN7 / 8                           | USB GND      | Black      |
 
 Change JP5 to E5V.
+
+Optionally short JP1 to keep the ST-Link in reset state to reduce power consumption.
+You can use the jumper from CN12 to do this.
